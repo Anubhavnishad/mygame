@@ -151,7 +151,7 @@ function play() {
 
 function endGame() {
   game_state = 'End';
-  message.innerHTML = 'Game Over 😔<br>Restart';
+  message.innerHTML = 'Game Over 😔<br> Restart';
   message.classList.add('messageStyle');
   img.style.display = 'none';
   sound_die.play();

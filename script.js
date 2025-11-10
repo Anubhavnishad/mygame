@@ -14,7 +14,7 @@ bg_music.volume = 0.4;
 let game_state = 'Start';
 img.style.display = 'none';
 message.classList.add('messageStyle');
-message.innerHTML = `Play With Me<br><span style="color:red;">↑</span> Tap or Press ArrowUp to Fly`;
+message.innerHTML = `Play With Me<br><span style="color:red;">↑</span> Tap or Press Enter to Fly`;
 
 function startGame() {
   if (game_state === 'Play') return;
@@ -38,16 +38,18 @@ function startGame() {
   play();
 }
 
-// ✅ Start Game (Enter key / tap / pointer)
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && game_state !== 'Play') startGame();
+// ✅ Desktop + Mobile Controls (start game / jump)
+['keydown', 'touchstart', 'pointerdown', 'click'].forEach(evt => {
+  document.addEventListener(evt, e => {
+    if (game_state !== 'Play') {
+      startGame();
+    } else {
+      if (e.key === 'ArrowUp' || e.key === ' ' || e.type !== 'keydown') {
+        jump();
+      }
+    }
+  }, { passive: true });
 });
-document.addEventListener('touchstart', () => {
-  if (game_state !== 'Play') startGame();
-}, { passive: true });
-document.addEventListener('pointerdown', () => {
-  if (game_state !== 'Play') startGame();
-}, { passive: true });
 
 function play() {
   let bird_dy = 0;
@@ -56,6 +58,14 @@ function play() {
   let bird_props = bird.getBoundingClientRect();
   const background = document.querySelector('.background').getBoundingClientRect();
 
+  // Bird jump
+  function jump() {
+    img.src = './images/bird-2.png';
+    bird_dy = -7.6;
+    setTimeout(() => (img.src = './images/bird.png'), 100);
+  }
+  window.jump = jump; // for event use
+
   // Pipe movement
   function move() {
     if (game_state !== 'Play') return;
@@ -63,17 +73,19 @@ function play() {
       const pipe_props = el.getBoundingClientRect();
       bird_props = bird.getBoundingClientRect();
 
+      // 💥 collision fix: smaller hitbox
+      if (
+        bird_props.left + 10 < pipe_props.left + pipe_props.width &&
+        bird_props.left + bird_props.width - 10 > pipe_props.left &&
+        bird_props.top + 10 < pipe_props.top + pipe_props.height &&
+        bird_props.top + bird_props.height - 10 > pipe_props.top
+      ) {
+        endGame();
+        return;
+      }
+
       if (pipe_props.right <= 0) el.remove();
       else {
-        if (
-          bird_props.left < pipe_props.left + pipe_props.width &&
-          bird_props.left + bird_props.width > pipe_props.left &&
-          bird_props.top < pipe_props.top + pipe_props.height &&
-          bird_props.top + bird_props.height > pipe_props.top
-        ) {
-          endGame();
-          return;
-        }
         if (
           pipe_props.right < bird_props.left &&
           pipe_props.right + move_speed >= bird_props.left &&
@@ -90,22 +102,10 @@ function play() {
   }
   requestAnimationFrame(move);
 
-  // Gravity + Jump
+  // Gravity + Jump motion
   function apply_gravity() {
     if (game_state !== 'Play') return;
     bird_dy += gravity;
-
-    function jump() {
-      img.src = 'images/Bird-2.png';
-      bird_dy = -7.6;
-      setTimeout(() => (img.src = 'images/Bird.png'), 100);
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowUp' || e.key === ' ') jump();
-    });
-    document.addEventListener('touchstart', jump, { passive: true });
-    document.addEventListener('pointerdown', jump, { passive: true });
 
     if (bird_props.top <= 0 || bird_props.bottom >= background.bottom) {
       endGame();

@@ -14,7 +14,7 @@ bg_music.volume = 0.4;
 let game_state = 'Start';
 img.style.display = 'none';
 message.classList.add('messageStyle');
-message.innerHTML = `Play With Me<br><span style="color:red;">↑</span> Tap or Press ArrowUp to Fly<br>Press Enter or Tap to Start`;
+message.innerHTML = `Play With Me<br><span style="color:red;">↑</span> Tap or Press ArrowUp to Fly`;
 
 function startGame() {
   if (game_state === 'Play') return;

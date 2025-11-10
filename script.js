@@ -1,6 +1,6 @@
 let move_speed = 3, gravity = 0.5;
 const bird = document.querySelector('.bird');
-const img = document.getElementById('bird-1');
+const img = document.getElementById('bird-2');
 const score_val = document.querySelector('.score_val');
 const message = document.querySelector('.message');
 const score_title = document.querySelector('.score_title');

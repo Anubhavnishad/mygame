@@ -15,15 +15,15 @@ bg_music.volume = 0.4;
 let game_state = 'Start';
 img.style.display = 'none';
 message.classList.add('messageStyle');
-message.innerHTML = `Play With Me<br><span style="color:red;">↑</span> Tap or Press Enter to Fly`;
+message.innerHTML = `<br><span style="color:red;">↑</span> Tap To Start`;
 
 function startGame() {
   if (game_state === 'Play') return;
   document.querySelectorAll('.pipe_sprite').forEach(el => el.remove());
   img.style.display = 'block';
   bird.style.top = '40vh';
-  bird.style.height = "60px";
-  bird.style.width = "80px";
+  bird.style.height = "200px";
+  bird.style.width = "250px";
   game_state = 'Play';
   message.innerHTML = '';
   score_title.innerHTML = 'Score: ';

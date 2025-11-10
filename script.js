@@ -69,6 +69,8 @@ function play() {
     if (game_state !== 'Play') return;
     bird_dy += gravity;
     bird.style.top = bird_props.top + bird_dy + 'px';
+     bird.style.hight="200px";
+     bird.style.width="250px";
     bird_props = bird.getBoundingClientRect();
 
     // Out of bounds

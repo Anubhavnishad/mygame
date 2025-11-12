@@ -15,7 +15,7 @@ html, body {
 
 /* ===== Background ===== */
 .background {
-    position: absolute; /* changed from fixed */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -27,7 +27,7 @@ html, body {
 
 /* ===== Bird ===== */
 .bird {
-    position: absolute; /* changed from fixed */
+    position: absolute;
     top: 40%;
     left: 30%;
     width: 10vw;
@@ -39,7 +39,7 @@ html, body {
 
 /* ===== Pipe ===== */
 .pipe_sprite {
-    position: absolute; /* changed from fixed */
+    position: absolute;
     width: 6vw;
     max-width: 60px;
     height: 70vh;
@@ -51,7 +51,7 @@ html, body {
 
 /* ===== Message ===== */
 .message {
-    position: absolute; /* changed from fixed */
+    position: absolute;
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -68,7 +68,7 @@ html, body {
 
 /* ===== Score ===== */
 .score {
-    position: absolute; /* changed from fixed */
+    position: absolute;
     top: 2%;
     left: 2%;
     font-size: 5vw;
@@ -78,11 +78,14 @@ html, body {
     -webkit-text-stroke-color: black;
     z-index: 200;
 }
-.score_val { color: gold; font-weight: bold; }
+.score_val {
+    color: gold;
+    font-weight: bold;
+}
 
 /* ===== Broken Heart Animation ===== */
 .broken-heart {
-    position: absolute; /* changed from fixed */
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -98,8 +101,8 @@ html, body {
 
 /* ===== Navigation Buttons ===== */
 .nav-button {
-    position: absolute; /* changed from fixed */
-    bottom: 20px;
+    position: absolute;
+    bottom: max(20px, env(safe-area-inset-bottom, 20px)); /* ✅ safe for phones with notch */
     padding: 10px 20px;
     border-radius: 8px;
     text-decoration: none;
@@ -108,9 +111,22 @@ html, body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     color: white;
     z-index: 200;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
-.prev-btn { left: 20px; background-color: #ff0000; }
-.next-btn { right: 20px; background-color: #2196F3; }
+.prev-btn {
+    left: 20px;
+    background-color: #ff0000;
+}
+.next-btn {
+    right: 20px;
+    background-color: #2196F3;
+}
+
+/* Hover / Tap Effects */
+.nav-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
 
 /* ===== Responsive Breakpoints ===== */
 @media only screen and (max-width: 1080px) {
@@ -133,4 +149,11 @@ html, body {
     .pipe_sprite { width: 18vw; height: 45vh; }
     .score { font-size: 12vw; }
     .broken-heart { font-size: 30vw; }
+
+    /* ✅ Extra padding for safe bottom area */
+    .nav-button {
+        bottom: max(25px, env(safe-area-inset-bottom, 25px));
+        font-size: 4vw;
+        padding: 8px 15px;
+    }
 }
